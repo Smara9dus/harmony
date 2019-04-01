@@ -1,7 +1,7 @@
 var config = {
     type: Phaser.WEBGL,
-    width: 800,
-    height: 600,
+    width: 960,
+    height: 675,
     parent: 'phaser-example',
     pixelArt: true,
     physics: {
@@ -31,25 +31,13 @@ function create ()
     this.matter.world.setBounds(0, 0, worldWidth, worldHeight);
 
     //  Create loads of random bodies
-    for (var i = 0; i < 100; i++)
+    for (var i = 0; i < 30; i++)
     {
         var x = Phaser.Math.Between(0, worldWidth);
         var y = Phaser.Math.Between(0, worldHeight);
 
-        if (Math.random() < 0.7)
-        {
-            var sides = Phaser.Math.Between(3, 14);
-            var radius = Phaser.Math.Between(8, 50);
+        this.matter.add.rectangle(x, y, 120, 30, { restitution: 0.9 });
 
-            this.matter.add.polygon(x, y, sides, radius, { restitution: 0.9 });
-        }
-        else
-        {
-            var width = Phaser.Math.Between(16, 128);
-            var height = Phaser.Math.Between(8, 64);
-
-            this.matter.add.rectangle(x, y, width, height, { restitution: 0.9 });
-        }
     }
 
     this.matter.add.mouseSpring();
