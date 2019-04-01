@@ -8,7 +8,7 @@ var config = {
         default: 'matter',
         matter: {
             gravity: {
-                y: 200
+                y: 1
             },
             debug: true
         }
@@ -25,8 +25,8 @@ var game = new Phaser.Game(config);
 
 function create ()
 {
-    var worldWidth = 1600;
-    var worldHeight = 1200;
+    var worldWidth = 800;
+    var worldHeight = 600;
 
     this.matter.world.setBounds(0, 0, worldWidth, worldHeight);
 
@@ -85,12 +85,12 @@ function create ()
 
     var cam = this.cameras.main;
 
-    gui = new dat.GUI();
+    //gui = new dat.GUI();
 
-    var p1 = gui.addFolder('Pointer');
-    p1.add(this.input, 'x').listen();
-    p1.add(this.input, 'y').listen();
-    p1.open();
+    //var p1 = gui.addFolder('Pointer');
+    //p1.add(this.input, 'x').listen();
+    //p1.add(this.input, 'y').listen();
+    //p1.open();
 
     var help = {
         line1: 'Cursors to move',
@@ -98,17 +98,17 @@ function create ()
         line3: 'Z & X to rotate',
     }
 
-    var f1 = gui.addFolder('Camera');
-    f1.add(cam, 'x').listen();
-    f1.add(cam, 'y').listen();
-    f1.add(cam, 'scrollX').listen();
-    f1.add(cam, 'scrollY').listen();
-    f1.add(cam, 'rotation').min(0).step(0.01).listen();
-    f1.add(cam, 'zoom', 0.1, 2).step(0.1).listen();
-    f1.add(help, 'line1');
-    f1.add(help, 'line2');
-    f1.add(help, 'line3');
-    f1.open();
+    // var f1 = gui.addFolder('Camera');
+    // f1.add(cam, 'x').listen();
+    // f1.add(cam, 'y').listen();
+    // f1.add(cam, 'scrollX').listen();
+    // f1.add(cam, 'scrollY').listen();
+    // f1.add(cam, 'rotation').min(0).step(0.01).listen();
+    // f1.add(cam, 'zoom', 0.1, 2).step(0.1).listen();
+    // f1.add(help, 'line1');
+    // f1.add(help, 'line2');
+    // f1.add(help, 'line3');
+    // f1.open();
 
 }
 
