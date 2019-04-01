@@ -25,8 +25,8 @@ var game = new Phaser.Game(config);
 
 function create ()
 {
-    var worldWidth = 800;
-    var worldHeight = 600;
+    var worldWidth = 960;
+    var worldHeight = 675;
 
     this.matter.world.setBounds(0, 0, worldWidth, worldHeight);
 
