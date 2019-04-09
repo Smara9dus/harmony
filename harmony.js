@@ -2,7 +2,7 @@ var config = {
     type: Phaser.WEBGL,
     width: 960,
     height: 675,
-    backgroundColor: 0x000000,
+    backgroundColor: 0x5c5c5c,
     parent: 'phaser-example',
     pixelArt: false,
     scene: {
@@ -16,7 +16,7 @@ var config = {
             gravity: {
                 y: 1
             },
-            debug: true, //set this to false later
+            debug: false, //set this to false later
             debugBodyColor: 0xffffff
         }
     },
@@ -27,16 +27,20 @@ var game = new Phaser.Game(config);
 const worldWidth = 960;
 const worldHeight = 675;
 
+const blockWidth = 100;
+const blockHeight = 20;
+
 function preload() {
   this.load.image('block', 'assets/block.png');
   this.load.image('base', 'assets/base.png');
 }
 
 //var controls; // might be able to delete this when figuring out the fixed camera thing
-let blocks; // a collection of all objects currently on screen (Make this
+let blocks = new Array(); // a collection of all objects currently on screen (Make this
 let base;
 let pauseButton;
 let isPaused;
+let destroyer;
 
 function create()
 {
@@ -46,10 +50,8 @@ function create()
     pauseButton = this.matter.add.image(worldWidth-20, 20,null,null, { isStatic: true }).setInteractive();
 
     //base = this.matter.add.image(worldWidth/4,worldHeight-50,'base',{ isStatic: true });
-    blocks = this.add.group();
-    base = this.matter.add.rectangle(worldWidth/4,worldHeight-50,worldWidth/2,100,{ isStatic: true });
-
-    pauseButton.on('pointerover', () => { console.log('pointerover'); });
+    base = this.matter.add.image(worldWidth/4,worldHeight-35,'base',null,{ isStatic: true });
+    //destroyer = this.matter.add.rectangle(worldWidth/2,100,worldWidth,20,{ isStatic: true});
 
     pauseButton.on('pointerdown', () => {
       if (isPaused) {
@@ -57,44 +59,49 @@ function create()
         this.matter.resume();
       } else {
         this.matter.pause();
-        isPaused = true;;
+        isPaused = true;
       }})
 
     //  Create loads of random bodies (this will have to be removed at some point)
-    for (var i = 0; i < 30; i++)
-    {
-        var x = Phaser.Math.Between(0, worldWidth);
-        var y = Phaser.Math.Between(0, worldHeight);
+      var x = Phaser.Math.Between(0, worldWidth);
+      var y = Phaser.Math.Between(0, worldHeight);
+      var b = new Block(this, blocks, x, y);
+    //this.matter.add.mouseSpring(); // makes blocks draggable! Will neeed to be changed later
 
-        this.matter.add.rectangle(x,y,100,20,{ restitution: 0 });
-    }
+    this.input.setDraggable(b);
 
-    this.matter.add.mouseSpring(); // makes blocks draggable! Will neeed to be changed later
+    // this.input.on('pointerdown', function(pointer) {
+    //   var b = this.matter.add.image(x,y,'block',null,{ restitution: 0 });
+    //   this.input.setDraggable(b);
+    // });
 
-    // var controlConfig = {
-    //     camera: this.cameras.main,
-    // };
-    //
-    // controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+    this.input.on('dragstart', function (pointer, gameObject) {
+        if (isPaused){
+        gameObject.setTint(0xcccccc);
+      }
+
+    });
+
+    this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+      if (isPaused){
+        gameObject.x = dragX;
+        gameObject.y = dragY;
+      }
+    });
+
+    this.input.on('dragend', function (pointer, gameObject) {
+      if (isPaused){
+        gameObject.clearTint();
+        if (gameObject.y%blockHeight < blockHeight/2){
+          gameObject.y = gameObject.y - gameObject.y%blockHeight;
+        } else if (gameObject.y%blockHeight > blockHeight/2) {
+          gameObject.y = gameObject.y + (blockHeight - gameObject.y%blockHeight);
+        }
+      }
+
+    });
+
 }
-
-// will be modified and used later for fixing location on screen
-function fixLocation(item) {
-
-    // Move the items when it is already dropped.
-    if (item.x < 90) {
-        item.x = 90;
-    }
-    else if (item.x > 180 && item.x < 270) {
-        item.x = 180;
-    }
-    else if (item.x > 360) {
-        item.x = 270;
-    }
-
-}
-
-
 
 // function update (time, delta)     // we aren't overriding this function right now
 // {
