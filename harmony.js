@@ -63,23 +63,26 @@ function create()
       }})
 
     //  Create loads of random bodies (this will have to be removed at some point)
+    for (var i = 0; i < 30; i++) {
       var x = Phaser.Math.Between(0, worldWidth);
       var y = Phaser.Math.Between(0, worldHeight);
-      var b = new Block(this, blocks, x, y);
-    //this.matter.add.mouseSpring(); // makes blocks draggable! Will neeed to be changed later
+      var b = new Block(this, blocks, x, y).setInteractive();
+      this.input.setDraggable(b);
+    }
 
-    this.input.setDraggable(b);
-
-    // this.input.on('pointerdown', function(pointer) {
-    //   var b = this.matter.add.image(x,y,'block',null,{ restitution: 0 });
-    //   this.input.setDraggable(b);
-    // });
+    // this.input.on('dragstart', function (pointer, gameObject) {
+    //     if (isPaused){
+    //       if (gameObject == null) {
+    //         gameObject = new Block(this, blocks, pointer.x, pointer.y).setInteractive();
+    //         this.input.setDraggable(gameObject);
+    //       }
+    //     }
+    //   }
 
     this.input.on('dragstart', function (pointer, gameObject) {
         if (isPaused){
-        gameObject.setTint(0xcccccc);
+          gameObject.setTint(0xcccccc);
       }
-
     });
 
     this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
@@ -98,9 +101,14 @@ function create()
           gameObject.y = gameObject.y + (blockHeight - gameObject.y%blockHeight);
         }
       }
-
     });
+}
 
+function addBlock(x,y)
+{
+  console.log(this);
+  var b = new Block(this, blocks, x, y).setInteractive();
+  this.input.setDraggable(b);
 }
 
 // function update (time, delta)     // we aren't overriding this function right now
