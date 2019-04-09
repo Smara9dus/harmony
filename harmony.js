@@ -1,5 +1,5 @@
 var config = {
-    type: Phaser.AUTO,
+    type: Phaser.WEBGL,
     width: 960,
     height: 675,
     backgroundColor: 0x000000,
@@ -34,16 +34,31 @@ function preload() {
 
 //var controls; // might be able to delete this when figuring out the fixed camera thing
 let blocks; // a collection of all objects currently on screen (Make this
-            // a separate object with its own methods for calculations)
 let base;
 let pauseButton;
+let isPaused;
 
-function create ()
+function create()
 {
+    isPaused = true;
+    this.matter.pause();
+
+    pauseButton = this.matter.add.image(worldWidth-20, 20,null,null, { isStatic: true }).setInteractive();
+
     //base = this.matter.add.image(worldWidth/4,worldHeight-50,'base',{ isStatic: true });
     blocks = this.add.group();
     base = this.matter.add.rectangle(worldWidth/4,worldHeight-50,worldWidth/2,100,{ isStatic: true });
-    pauseButton = this.matter.add.rectangle(worldWidth-30,30,30,30,{ isStatic: true });
+
+    pauseButton.on('pointerover', () => { console.log('pointerover'); });
+
+    pauseButton.on('pointerdown', () => {
+      if (isPaused) {
+        isPaused = false;
+        this.matter.resume();
+      } else {
+        this.matter.pause();
+        isPaused = true;;
+      }})
 
     //  Create loads of random bodies (this will have to be removed at some point)
     for (var i = 0; i < 30; i++)
