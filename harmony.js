@@ -36,7 +36,7 @@ function preload() {
 }
 
 //var controls; // might be able to delete this when figuring out the fixed camera thing
-let blocks = new Array(); // a collection of all objects currently on screen (Make this
+let blockstack;
 let base;
 let pauseButton;
 let isPaused;
@@ -47,41 +47,33 @@ function create()
     isPaused = true;
     this.matter.pause();
 
-    pauseButton = this.matter.add.image(worldWidth-20, 20,null,null, { isStatic: true }).setInteractive();
+    // add state-change buttons
+    pauseButton = new RunButton(this);
+    newButton = new NewButton(this);
 
     //base = this.matter.add.image(worldWidth/4,worldHeight-50,'base',{ isStatic: true });
     base = this.matter.add.image(worldWidth/4,worldHeight-35,'base',null,{ isStatic: true });
     //destroyer = this.matter.add.rectangle(worldWidth/2,100,worldWidth,20,{ isStatic: true});
 
-    pauseButton.on('pointerdown', () => {
-      if (isPaused) {
-        isPaused = false;
-        this.matter.resume();
-      } else {
-        this.matter.pause();
-        isPaused = true;
-      }})
+    blocks = new BlockStack(this);
 
-    //  Create loads of random bodies (this will have to be removed at some point)
-    for (var i = 0; i < 30; i++) {
-      var x = Phaser.Math.Between(0, worldWidth);
-      var y = Phaser.Math.Between(0, worldHeight);
-      var b = new Block(this, blocks, x, y).setInteractive();
-      this.input.setDraggable(b);
-    }
 
-    // this.input.on('dragstart', function (pointer, gameObject) {
-    //     if (isPaused){
-    //       if (gameObject == null) {
-    //         gameObject = new Block(this, blocks, pointer.x, pointer.y).setInteractive();
-    //         this.input.setDraggable(gameObject);
-    //       }
-    //     }
-    //   }
+    // add listeners
+
+    t = this; //for adding blocks
+    this.input.on('pointerdown', function (pointer, gameObject) {
+          if (isPaused && gameObject.length == 0){
+          blocks.addBlock(t,pointer.x,pointer.y,1.0);
+          t.input.setDraggable(gameObject);
+        }
+      });
 
     this.input.on('dragstart', function (pointer, gameObject) {
         if (isPaused){
           gameObject.setTint(0xcccccc);
+          gameObject.rotation = 0;
+          gameObject.setVelocity(0,0);
+          gameObject.setAngularVelocity(0);
       }
     });
 
@@ -97,7 +89,7 @@ function create()
         gameObject.clearTint();
         if (gameObject.y%blockHeight < blockHeight/2){
           gameObject.y = gameObject.y - gameObject.y%blockHeight;
-        } else if (gameObject.y%blockHeight > blockHeight/2) {
+        } else if (gameObject.y%blockHeight >= blockHeight/2) {
           gameObject.y = gameObject.y + (blockHeight - gameObject.y%blockHeight);
         }
       }
@@ -111,7 +103,7 @@ function addBlock(x,y)
   this.input.setDraggable(b);
 }
 
-// function update (time, delta)     // we aren't overriding this function right now
-// {
-//     controls.update(delta);
-// }
+function update (time, delta)     // we aren't overriding this function right now but will need to
+{
+      //controls.update(delta);
+}
