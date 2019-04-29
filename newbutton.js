@@ -1,13 +1,15 @@
 function NewButton(g,blocks) {
-  var button = g.matter.add.image(worldWidth-120, 20,'new',null,{ isStatic: true }).setInteractive();
-  button.on('pointerdown', () => {
+  var button1 = g.matter.add.image(375, 630,'spinal',null,{ isStatic: true }).setInteractive();
+  var button2 = g.matter.add.image(325, 630,'parabola',null,{ isStatic: true }).setInteractive();
+
+  button1.on('pointerdown', () => {
     g.matter.pause();
     isPaused = true;
-    blocks.newPattern("first");
+    blocks.newPattern("spinal");
   });
-
-
-
-
-
+  button2.on('pointerdown', () => {
+    g.matter.pause();
+    isPaused = true;
+    blocks.newPattern("parabola");
+  });
 }

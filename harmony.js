@@ -7,8 +7,8 @@ var config = {
     pixelArt: false,
     scene: {
         preload: preload,
-        create: create//,
-        //update: update // overriding the update function might be necessary later
+        create: create,
+        update: update
     },
     physics: {
         default: 'matter',
@@ -16,7 +16,7 @@ var config = {
             gravity: {
                 y: 1
             },
-            debug: false, //set this to false later
+            debug: false,
             debugBodyColor: 0xffffff
         }
     },
@@ -33,11 +33,12 @@ const blockHeight = 20;
 function preload() {
   this.load.image('block', 'assets/block.png');
   this.load.image('base', 'assets/base.png');
-  this.load.image('pause', 'assets/smallbutton.png');
-  this.load.image('new', 'assets/bigbutton.png');
+  this.load.spritesheet('pause', 'assets/runbutton.png', { frameWidth: 50, frameHeight: 50 });
+  this.load.image('parabola', 'assets/parabolabutton.png');
+  this.load.image('spinal', 'assets/spinalbutton.png');
+
 }
 
-//var controls; // might be able to delete this when figuring out the fixed camera thing
 let blocks;
 let base;
 let pauseButton;
@@ -50,9 +51,7 @@ function create()
     isPaused = true;
     this.matter.pause();
 
-    //base = this.matter.add.image(worldWidth/4,worldHeight-50,'base',{ isStatic: true });
     base = this.matter.add.image(worldWidth/4,worldHeight-35,'base',null,{ isStatic: true });
-    //destroyer = this.matter.add.rectangle(worldWidth/2,100,worldWidth,20,{ isStatic: true});
 
     blocks = new BlockStack(this);
 
@@ -106,4 +105,4 @@ function create()
 //   this.input.setDraggable(b);
 // }
 
-function update() {}
+function update() { pauseButton.update(); }

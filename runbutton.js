@@ -1,5 +1,5 @@
 function RunButton(g) {
-  var button = g.matter.add.image(worldWidth-20, 20,'pause',null, { isStatic: true }).setInteractive();
+  var button = g.matter.add.sprite(440, 630,'pause',0,{ isStatic: true }).setInteractive();
   button.on('pointerdown', () => {
     if (isPaused) {
       isPaused = false;
@@ -8,4 +8,9 @@ function RunButton(g) {
       g.matter.pause();
       isPaused = true;
     }});
+
+    this.update = function() {
+      if(isPaused) { button.setFrame(1);}
+      else { button.setFrame(0);}
+    }
 }

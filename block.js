@@ -20,6 +20,12 @@ function Block(g,x,y,sm) {
     ypos=newY;
   }
 
-  var block = g.matter.add.image(x,y,'block',null,{ restitution: 0.0, friction: 1.0 }).setInteractive(); // rescale with sizeMultiplier
+  var config = {
+    restitution: 0.0,
+    friction: 1.0,
+    mass: 1.0
+  };
+
+  var block = g.matter.add.image(x,y,'block',null,config).setInteractive(); // rescale with sizeMultiplier?
   g.input.setDraggable(block);
 }

@@ -1,8 +1,8 @@
 function BlockStack(g) {
   var blocks = [];
   var totalWeight;
-  var centerOfGx;
-  var centerOfGy;
+  var centerOfGx = 0;
+  var centerOfGy = 0;
 
   function getCenterOfG() { // Might have to split into two functions
     return(centerOfGx,centerOfGy);
@@ -24,43 +24,51 @@ function BlockStack(g) {
   }
 
   this.newPattern = function(type) {
-    while (blocks.length != 0) { // this only destroys half of the blocks????
+    while (blocks.length != 0) {
       blocks.pop(b).destroy();
     }
 
-    var x = 475;
+    var x = 478;
     var y = 580;
     var w = 100;
     var h = 20;
 
-    console.log(type);
-    if(type === "first"){
-      this.addBlock(g,x,y,1.0);
-
-      this.addBlock(g,x-50,y-20,1.0);
-      this.addBlock(g,x+50,y-20,1.0);
-
-      this.addBlock(g,x-100,y-40,1.0);
-      this.addBlock(g,x,y-40,1.0);
-      this.addBlock(g,x+100,y-40,1.0);
-
-      this.addBlock(g,x-50,y-60,1.0);
-      this.addBlock(g,x+50,y-60,1.0);
-
-      this.addBlock(g,x,y-80,1.0);
-
+    if(type === "spinal"){
+      var i;
+      var j=0;
+      for(i = 0; i < 20; i++){
+        j = j + (w/(20-i)*.5);
+        this.addBlock(g,x+j,y-(i*h),1.0);
+      }
     }
-    // if(type.equals("spinal large")) {
-    //   console.log("spinal large");
-    // }
-    // if(type.equals("parabolic small")) {
-    //   console.log("parabolic small");
-    // }
-    // if(type.equals("parabolic large")) {
-    //   console.log("parabolic large");
-    // }
+    if(type === "parabola"){
 
-    console.log("New stack size: " + blocks.length);
+      var i;
+
+      for(i = 0; i < 10; i++) {
+        this.addBlock(g,x,y-(i*h*2),1.0);
+      }
+      for(i = 0; i < 9; i++) {
+        this.addBlock(g,x-(.5*w),y-h-(i*h*2),1.0);
+        this.addBlock(g,x+(.5*w),y-h-(i*h*2),1.0);
+      }
+      for(i = 0; i < 9; i++) {
+        this.addBlock(g,x-(w),y-(2*h)-(i*h*2),1.0);
+        this.addBlock(g,x+(w),y-(2*h)-(i*h*2),1.0);
+      }
+      for(i = 0; i < 8; i++) {
+        this.addBlock(g,x-(1.5*w),y-(3*h)-(i*h*2),1.0);
+        this.addBlock(g,x+(1.5*w),y-(3*h)-(i*h*2),1.0);
+      }
+      for(i = 0; i < 7; i++) {
+        this.addBlock(g,x-(2*w),y-(6*h)-(i*h*2),1.0);
+        this.addBlock(g,x+(2*w),y-(6*h)-(i*h*2),1.0);
+      }
+      for(i = 0; i < 4; i++) {
+        this.addBlock(g,x-(2.5*w),y-(11*h)-(i*h*2),1.0);
+        this.addBlock(g,x+(2.5*w),y-(11*h)-(i*h*2),1.0);
+      }
+    }
     this.updateStats();
   }
 }
