@@ -7,6 +7,10 @@ function Block(g,x,y,sm) {
     return xpos;
   }
 
+  this.destroy = function() {
+    block.destroy();
+  }
+
   function getY() {
     return ypos;
   }
@@ -16,6 +20,6 @@ function Block(g,x,y,sm) {
     ypos=newY;
   }
 
-  var block = g.matter.add.image(x,y,'block',null,{ restitution: 0 }).setInteractive(); // rescale with sizeMultiplier
+  var block = g.matter.add.image(x,y,'block',null,{ restitution: 0.0, friction: 1.0 }).setInteractive(); // rescale with sizeMultiplier
   g.input.setDraggable(block);
 }

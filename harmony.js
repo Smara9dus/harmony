@@ -1,5 +1,5 @@
 var config = {
-    type: Phaser.WEBGL,
+    type: Phaser.AUTO,
     width: 960,
     height: 675,
     backgroundColor: 0x5c5c5c,
@@ -33,12 +33,15 @@ const blockHeight = 20;
 function preload() {
   this.load.image('block', 'assets/block.png');
   this.load.image('base', 'assets/base.png');
+  this.load.image('pause', 'assets/smallbutton.png');
+  this.load.image('new', 'assets/bigbutton.png');
 }
 
 //var controls; // might be able to delete this when figuring out the fixed camera thing
-let blockstack;
+let blocks;
 let base;
 let pauseButton;
+let newButton;
 let isPaused;
 let destroyer;
 
@@ -47,15 +50,15 @@ function create()
     isPaused = true;
     this.matter.pause();
 
-    // add state-change buttons
-    pauseButton = new RunButton(this);
-    newButton = new NewButton(this);
-
     //base = this.matter.add.image(worldWidth/4,worldHeight-50,'base',{ isStatic: true });
     base = this.matter.add.image(worldWidth/4,worldHeight-35,'base',null,{ isStatic: true });
     //destroyer = this.matter.add.rectangle(worldWidth/2,100,worldWidth,20,{ isStatic: true});
 
     blocks = new BlockStack(this);
+
+    // add state-change buttons
+    pauseButton = new RunButton(this);
+    newButton = new NewButton(this,blocks);
 
 
     // add listeners
@@ -96,14 +99,11 @@ function create()
     });
 }
 
-function addBlock(x,y)
-{
-  console.log(this);
-  var b = new Block(this, blocks, x, y).setInteractive();
-  this.input.setDraggable(b);
-}
+// function addBlock(x,y)
+// {
+//   console.log(this);
+//   var b = new Block(this, blocks, x, y).setInteractive();
+//   this.input.setDraggable(b);
+// }
 
-function update (time, delta)     // we aren't overriding this function right now but will need to
-{
-      //controls.update(delta);
-}
+function update() {}
