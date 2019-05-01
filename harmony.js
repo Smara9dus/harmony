@@ -65,8 +65,13 @@ function create()
     t = this; //for adding blocks
     this.input.on('pointerdown', function (pointer, gameObject) {
           if (isPaused && gameObject.length == 0){
-          blocks.addBlock(t,pointer.x,pointer.y,1.0);
-          t.input.setDraggable(gameObject);
+          var y;
+          if (pointer.y%blockHeight < blockHeight/2){
+            y = pointer.y - pointer.y%blockHeight;
+          } else if (pointer.y%blockHeight >= blockHeight/2) {
+            y = pointer.y + (blockHeight - pointer.y%blockHeight);
+          }
+          blocks.addBlock(t,pointer.x,y,1.0);
         }
       });
 
