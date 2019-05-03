@@ -56,9 +56,8 @@ function create()
     blocks = new BlockStack(this);
 
     // add state-change buttons
-    pauseButton = new RunButton(this);
+    pauseButton = new RunButton(this,blocks);
     newButton = new NewButton(this,blocks);
-
 
     // add listeners
 
@@ -99,6 +98,7 @@ function create()
         } else if (gameObject.y%blockHeight >= blockHeight/2) {
           gameObject.y = gameObject.y + (blockHeight - gameObject.y%blockHeight);
         }
+        blocks.updateStats();
       }
     });
 }

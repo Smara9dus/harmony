@@ -1,4 +1,4 @@
-function RunButton(g) {
+function RunButton(g,blocks) {
   var button = g.matter.add.sprite(440, 630,'pause',0,{ isStatic: true }).setInteractive();
   button.on('pointerdown', () => {
     if (isPaused) {
@@ -7,6 +7,7 @@ function RunButton(g) {
     } else {
       g.matter.pause();
       isPaused = true;
+      blocks.updateStats();
     }});
 
     this.update = function() {

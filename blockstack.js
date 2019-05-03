@@ -3,6 +3,10 @@ function BlockStack(g) {
   var totalWeight;
   var centerOfGx = 0;
   var centerOfGy = 0;
+  var overhang = 0;
+
+
+  var text = g.add.text(50,50,"");
 
   function getCenterOfG() { // Might have to split into two functions
     return(centerOfGx,centerOfGy);
@@ -19,8 +23,40 @@ function BlockStack(g) {
     this.updateStats();   // unless this function gets used for clicking on and removing blocks, updating here is useless
   }
 
+  this.destroyOffscreen = function() {
+    blocks.forEach(function(block) {
+      if (block.getY() > 700) {
+        blocks.pop(block).destroy();
+      }
+    });
+  }
+
   this.updateStats = function() {
     // re-calculate center of gravity
+    centerOfGx,centerOfGy,overhang = 0;
+
+    //this.destroyOffscreen();
+
+    if(blocks.length == 0) {
+      text.setText("");
+      return;
+    }
+
+    blocks.forEach(function(block) {
+      centerOfGx = centerOfGx + block.getX();
+      centerOfGy = centerOfGy + block.getY();
+      if (block.getX() > overhang) {
+        overhang = block.getX();
+      }
+    });
+    centerOfGx = centerOfGx / blocks.length;
+    centerOfGy = centerOfGy / blocks.length;
+    overhang = (overhang-428)/100;
+
+    text.setText("# of Blocks: " + blocks.length +
+                 "\nOverhang: " + overhang +
+                 "\nCenter of Gravity: " + centerOfGx + " " + centerOfGy);
+
   }
 
   this.newPattern = function(type) {
@@ -35,7 +71,7 @@ function BlockStack(g) {
 
     if(type === "spinal"){
       var i;
-      var j=0;
+      var j=-50;
       for(i = 0; i < 20; i++){
         j = j + (w/(20-i)*.5);
         this.addBlock(g,x+j,y-(i*h),1.0);

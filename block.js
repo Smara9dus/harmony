@@ -1,27 +1,20 @@
 function Block(g,x,y,sm) {
-  var xpos;
-  var ypos;
   var sizeMultiplier;
 
-  function getX() {
-    return xpos;
+  this.getX = function() {
+    return block.x;
+  }
+
+  this.getY = function() {
+    return block.y;
   }
 
   this.destroy = function() {
     block.destroy();
   }
 
-  function getY() {
-    return ypos;
-  }
-
-  function updatePos(newX, newY) {
-    xpos=newX;
-    ypos=newY;
-  }
-
   var config = {
-    restitution: 0.0,
+    restitution: 0.0, // see if there is a way to make each body rigid
     friction: 1.0,
     mass: 1.0
   };
