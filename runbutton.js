@@ -11,7 +11,13 @@ function RunButton(g,blocks) {
     }});
 
     this.update = function() {
-      if(isPaused) { button.setFrame(1);}
-      else { button.setFrame(0);}
+      if(isPaused) {
+        button.setFrame(1);
+        blocks.getCenterMark().setAlpha(1);
+      }
+      else {
+        button.setFrame(0);
+        blocks.getCenterMark().setAlpha(0);
+      }
     }
 }

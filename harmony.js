@@ -34,8 +34,16 @@ function preload() {
   this.load.image('block', 'assets/block.png');
   this.load.image('base', 'assets/base.png');
   this.load.spritesheet('pause', 'assets/runbutton.png', { frameWidth: 50, frameHeight: 50 });
-  this.load.image('parabola', 'assets/parabolabutton.png');
+  this.load.image('parabola6', 'assets/pb6.png');
+  this.load.image('parabola5', 'assets/pb5.png');
+  this.load.image('parabola4', 'assets/pb4.png');
+  this.load.image('parabola3', 'assets/pb3.png');
+  this.load.image('spinal28', 'assets/spinal28.png');
+  this.load.image('spinal15', 'assets/spinal15.png');
+  this.load.image('spinal5', 'assets/spinal5.png');
+  this.load.image('blank', 'assets/blank.png');
   this.load.image('spinal', 'assets/spinalbutton.png');
+  this.load.image('center', 'assets/center.png')
 
 }
 
@@ -110,4 +118,7 @@ function create()
 //   this.input.setDraggable(b);
 // }
 
-function update() { pauseButton.update(); }
+function update() {
+  pauseButton.update();
+  //blocks.update();
+ }
